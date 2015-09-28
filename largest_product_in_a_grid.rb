@@ -24,7 +24,47 @@ grid.each do |number|
 	number = number.to_i
 	cleaned_grid << number
 end
-
-cleaned_grid.each do |number|
-	p number
+$largest_product = 0
+def checkProduct(int)
+	if int > $largest_product 
+		$largest_product = int
+		p $largest_product
+	end 
 end
+
+#Counter
+x = 0
+largest_number = 0
+cleaned_grid.each do |number|
+	begin
+		#Right
+		product = number * cleaned_grid[x+1]* cleaned_grid[x+2]* cleaned_grid[x+3]
+		checkProduct(product)
+		#Left
+		product = number * cleaned_grid[x-1]* cleaned_grid[x-2]* cleaned_grid[x-3]
+		checkProduct(product)
+		#Down
+		product = number * cleaned_grid[x+20]* cleaned_grid[x+40]* cleaned_grid[x+60]
+		checkProduct(product)
+		#Up
+		product = number * cleaned_grid[x-20]* cleaned_grid[x-40]* cleaned_grid[x-60]
+		checkProduct(product)
+		#Up Right
+		product = number * cleaned_grid[x-19]* cleaned_grid[x-38]* cleaned_grid[x-57]
+		checkProduct(product)
+		#Down Right
+		product = number * cleaned_grid[x+19]* cleaned_grid[x+38]* cleaned_grid[x+57]
+		checkProduct(product)
+		#Up Left 
+		product = number * cleaned_grid[x-21]* cleaned_grid[x-42]* cleaned_grid[x-63]
+		checkProduct(product)
+		#Down Left 
+		product = number * cleaned_grid[x+21]* cleaned_grid[x+42]* cleaned_grid[x+63]
+		checkProduct(product)
+	rescue
+		#If we get here it's because we tried to use a number outside of the grid
+		#Which is not what we want anyways
+	end
+	x += 1
+end
+
