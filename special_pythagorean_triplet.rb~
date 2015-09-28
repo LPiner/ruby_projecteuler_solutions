@@ -1,0 +1,29 @@
+required_number = 1000
+result = 0
+a = 1
+
+while result != required_number 
+	p "Value of A is #{a}"
+	b = a
+	result = 0
+	while true 
+		p "Value of B is #{b}"
+		tmpa = a * a
+		tmpb = b * b
+		c = tmpa + tmpb 
+		result = tmpa + tmpb + c
+		if result >= required_number  
+			break
+		end
+		b += 1
+	end
+	if result = required_number
+		p "Value of A is #{tmpa}"
+		p "Value of B is #{tmpb}"
+		p "Value of C is #{c}"
+		p "The product is #{tmpa * tmpb * c}"
+	end
+	p "Second loop ending #{result}"
+	a += 1
+end
+p "First loop ending #{result}"
