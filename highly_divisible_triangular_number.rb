@@ -1,37 +1,45 @@
 require 'prime'
+require 'benchmark'
 class Foo
 	def initialize
-		@debug_mode = true 
+		@debug_mode = false 
 	end
 
-	def start(triangle_numbers, divisors_count)
-		@natural_numbers = gen_triangle_numbers(triangle_numbers)
-		find_divisors(@natural_numbers.last)
-	end
-
-	def gen_triangle_numbers(count)
-		natural_numbers = [1,2]	
-		while natural_numbers.count < count
-			placeholder = 0
-			natural_numbers.count.times do |x|
-				y = x+1
-				placeholder += y 
-			end
-			natural_numbers << placeholder
+	def start(divisors_count)
+		triangle_numbers = []
+		k = [] 
+		while k.count < divisors_count
+			@triangle_numbers = gen_triangle_numbers(triangle_numbers)
+		 	b2 = Benchmark.measure{k = find_divisors_old(@triangle_numbers.last)}
 		end
-		if @debug_mode
-			p "There were #{count} triangle numbers generated"
-			p natural_numbers
-		end
-		natural_numbers
+ 		p "Old Method"
+ 		p b2
+ 		p "The first triangle number with over #{divisors_count} divisors is #{@triangle_numbers.last} with #{k.count} divisors"
+ 		p k
 	end
 	
-	def find_divisors(number)
+	def gen_triangle_numbers(triangle_numbers)
+	#Gen the next triangle number	
+		placeholder = 0
+		triangle_numbers.count.times do |x|
+			y = x+1
+			placeholder += y 
+		end
+		triangle_numbers << placeholder
+		if @debug_mode
+			p "There were #{triangle_numbers.count} triangle numbers generated"
+			p triangle_numbers
+		end
+		triangle_numbers
+	end
+	
+	def find_divisors_old(number)
 		divisors = []
 		y = 1
-		while y <= number
+		while y <= Math.sqrt(number) 
 			if number % y == 0 
 				divisors << y
+				divisors << number / y
 			end
 			y += 1
 		end
@@ -41,42 +49,13 @@ class Foo
 			p divisors
 			p "There are a total of #{divisors.count} divisors"
 		end
-		divisors.count
+		divisors << number
+		divisors.uniq!
+		divisors.sort!
+		divisors
 	end	
-	def old_code
-		divisors = 0
-		natural_numbers = [1,2]	
-		x = 3
-		while divisors <= 500
-			divisors = 0
-			y = 1
-			if !Prime.prime?(natural_numbers[-1])
-				while y <= natural_numbers[-1]
-					if natural_numbers[-1] % y == 0
-						divisors += 1
-						#p "#{y} is a divisor of #{natural_numbers[-1]}"
-					end
-					y += 1		
-				end
-			end
-			if divisors > 100
-				p "Number had #{divisors} divisors"
-				p natural_numbers[-1]
-			end
-			k = 1
-			h = 0
-			x.times do 
-				h = h+k
-				k+=1	
-			end
-			natural_numbers << h 
-			x+=1
-		end
-		p natural_numbers[-1]
-		p divisors
-	end
 end
 a = Foo.new
-a.start(1000000,10)
+a.start(500)
 #a.gen_triangle_numbers(10)
-#def start(triangle_numbers, divisors_count)
+#def start(divisors_count)
