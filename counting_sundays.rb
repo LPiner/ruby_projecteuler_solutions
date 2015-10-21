@@ -1,4 +1,4 @@
-year = 1901
+year = 1900
 days_of_the_week = ['mon', 'tues' ,'wens', 'thurs','fri','sat', 'sun']
 current_day = 0
 sunday_count = 0
@@ -7,16 +7,16 @@ while year <= 2000
 	if /\d000/.match(year.to_s) 
 		if year % 400 == 0
 			 months['feb'] = 29
-			p year
 		end
 	elsif year % 4 == 0
 		months['feb'] = 29
-		p year
 	end
 	months.each_value do |days|
 		days.times do |x|
 			if current_day == 6 and x == 0
-				sunday_count +=1
+				if year != 1900
+					sunday_count +=1
+				end
 			end
 			if current_day == 6
 				current_day = 0
