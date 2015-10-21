@@ -17,11 +17,18 @@ p Benchmark.measure{
 (1..10000).each do |x|
 	n = x.to_s.split('').permutation.to_a
 	all_prime = false
+	next if x.to_s.include? "0"
+	next if x.to_s.include? "2"
+	next if x.to_s.include? "4"
+	next if x.to_s.include? "5"
+	next if x.to_s.include? "6"
+	next if x.to_s.include? "8"
 	n.each do |k|
-		if !is_prime?(k.join.to_i)
+		k = k.join.to_i
+		if !is_prime?(k)
 			all_prime = false
 			break
-		end
+		end	
 		all_prime = true
 	end	
 	if all_prime; cp << x end
