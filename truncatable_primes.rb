@@ -1,3 +1,5 @@
+require 'benchmark'
+p Benchmark.measure{
 def is_prime(x)
 	y = 1
 	divisors = []
@@ -13,6 +15,10 @@ def is_prime(x)
 
 end
 def is_truncatable_prime_right?(x)
+
+	return false if x.to_s[0] == '1'
+	return false if x.to_s[0] == '4'
+	return false if x.to_s[0] == '8'
 	if is_prime(x)
 		if x.to_s.size > 1
 			x = x.to_s
@@ -27,6 +33,9 @@ def is_truncatable_prime_right?(x)
 
 end
 def is_truncatable_prime_left?(x)
+	return false if x.to_s[-1] == '1'
+	return false if x.to_s[-1] == '4'
+	return false if x.to_s[-1] == '8'
 	if is_prime(x)
 		if x.to_s.size > 1
 			x = x.to_s
@@ -41,7 +50,7 @@ def is_truncatable_prime_left?(x)
 
 end
 results = []
-(10..9999999).each do |x|
+(10..999999).each do |x|
 	if is_truncatable_prime_left?(x)
 		if is_truncatable_prime_right?(x)
 			results << x
@@ -50,3 +59,7 @@ results = []
 
 end
 p results
+x = 0
+results.each {|k| x+=k}
+p x
+}
